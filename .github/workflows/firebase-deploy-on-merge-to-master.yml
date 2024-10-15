@@ -1,7 +1,8 @@
 name: Deploy to Firebase when merged to master
 on:
   push:
-    branches: feature/firebase-setup
+    branches:
+      - master
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
