@@ -31,7 +31,6 @@ jobs:
         working-directory: ./functions
 
       - name: Deploy to Firebase
-        uses: actions/checkout@v2
         run: firebase deploy
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
