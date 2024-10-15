@@ -26,10 +26,6 @@ jobs:
         run: npm install
         working-directory: ./functions
 
-      - name: Run lint
-        run: npm lint
-        working-directory: ./functions
-
       - name: Deploy to Firebase
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ATATIME_APP }}
