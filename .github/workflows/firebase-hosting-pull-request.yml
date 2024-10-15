@@ -2,13 +2,8 @@ name: Deploy to Firebase Hosting on PR
 on:
   push:
     branches: feature/firebase-setup
-permissions:
-  checks: write
-  contents: read
-  pull-requests: write
 jobs:
   build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
