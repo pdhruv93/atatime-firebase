@@ -4,6 +4,7 @@ import {
   Timestamp,
 } from "firebase-admin/firestore";
 import { onCall } from "firebase-functions/v2/https";
+import { getFormattedActivityName } from "./utils";
 
 type RequestData = {
   activityName: string;
@@ -14,6 +15,7 @@ const MAX_ACTIVITY_NAME_LEN = 12;
 
 export const createActivity = onCall<RequestData>(async (request) => {
   const { activityName, location } = request.data;
+  const formattedActivityName = getFormattedActivityName(activityName);
 
   if (!location) {
     return {
@@ -27,12 +29,10 @@ export const createActivity = onCall<RequestData>(async (request) => {
     };
   }
 
-  const formattedActivityName = activityName.replace(/ /g, "_");
-
   const createdDocument = await getFirestore()
     .collection("activities")
     .doc(formattedActivityName)
-    .update({ userId: request.auth?.uid, time: Timestamp.now(), location });
+    .set({ userId: request.auth?.uid, time: Timestamp.now(), location });
 
   return {
     createdDocument,
