@@ -1,19 +1,28 @@
-import { getFirestore } from "firebase-admin/firestore";
-import { onRequest, HttpsError } from "firebase-functions/v2/https";
+import {
+  type GeoPoint,
+  getFirestore,
+  Timestamp,
+} from "firebase-admin/firestore";
+import { onCall } from "firebase-functions/v2/https";
 
-export const createActivity = onRequest(async (req, res) => {
-  const { location } = req.query;
+type RequestData = {
+  location: GeoPoint;
+};
+
+export const createActivity = onCall<RequestData>(async (request) => {
+  const { location } = request.data;
 
   if (!location) {
-    throw new HttpsError(
-      "invalid-argument",
-      "The current location where the activity is happening is required"
-    );
+    return {
+      error: "The current location where the activity is happening is required",
+    };
   }
 
-  const writeResult = await getFirestore()
+  const createdDocument = await getFirestore()
     .collection("activities")
-    .add({ userId: "dummy", location });
+    .add({ userId: request.auth?.uid, time: Timestamp.now(), location });
 
-  res.json({ createdEntryId: writeResult.id });
+  return {
+    createdDocId: createdDocument.id,
+  };
 });
