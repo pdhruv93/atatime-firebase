@@ -24,7 +24,7 @@ type ResponseData =
 
 const MAX_RADIUS_ALLOWED = 12;
 const MAX_RESULTS_COUNT = 15;
-const TIME_RANGE = new Date(Date.now() - 60 * 60 * 1000); // 1 Hour back
+// const TIME_RANGE = new Date(Date.now() - 60 * 60 * 1000); // 1 Hour back
 
 /**
  * Returns all the activities with provided filter inputs
@@ -44,9 +44,6 @@ export const getUsers = onCall<RequestData, Promise<ResponseData>>(
       location,
       radius = MAX_RADIUS_ALLOWED,
       count = MAX_RESULTS_COUNT,
-      searchExact = true,
-      afterTime = Timestamp.fromDate(TIME_RANGE),
-      sort = "LOCATION",
     } = request.data;
 
     if (!location) {
