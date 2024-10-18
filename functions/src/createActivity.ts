@@ -17,15 +17,15 @@ export const createActivity = onCall<RequestData>(async (request) => {
   const { activityName, location } = request.data;
   const formattedActivityName = getFormattedActivityName(activityName);
 
-  if (!location) {
-    return {
-      error: "The current location where the activity is happening is required",
-    };
-  }
-
   if (activityName.length > MAX_ACTIVITY_NAME_LEN) {
     return {
       error: `Too long activity name. Max allowed: ${MAX_ACTIVITY_NAME_LEN}`,
+    };
+  }
+
+  if (!location) {
+    return {
+      error: "The location where the activity is happening is required",
     };
   }
 

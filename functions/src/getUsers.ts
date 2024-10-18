@@ -1,6 +1,6 @@
 import { GeoPoint, Timestamp, getFirestore } from "firebase-admin/firestore";
 import { onCall } from "firebase-functions/v2/https";
-import { type UserInfo } from "./createOrUpdateUser";
+import { type UserInfo } from "./createUser";
 
 type Error = { error: string };
 
@@ -19,7 +19,7 @@ type ResponseData =
   | {
       activityName: string | undefined;
       totalResults: number;
-      users: (UserInfo & { location?: GeoPoint })[];
+      users: UserInfo[];
     };
 
 const MAX_RADIUS_ALLOWED = 12;
@@ -81,11 +81,13 @@ export const getUsers = onCall<RequestData, Promise<ResponseData>>(
         {
           userId: "111",
           userName: "Test User1",
+          email: "test1@gmail.com",
           profileURL: "https://abc.com",
         },
         {
           userId: "111",
           userName: "Test User1",
+          email: "test2@gmail.com",
           profileURL: "https://abc.com",
           location: new GeoPoint(65, 68),
         },
