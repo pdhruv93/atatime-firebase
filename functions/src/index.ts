@@ -1,6 +1,7 @@
 export { createActivity } from "./createActivity";
-export { getUsers } from "./getUsers";
-export { createOrUpdateUser } from "./createOrUpdateUser";
+export { getActivities } from "./getActivities";
+export { createUser } from "./createUser";
 export { deleteUser } from "./deleteUser";
+export { getUsers } from "./getUsers";
 export { sendNotification } from "./sendNotification";
-export { updateUserInfo } from "./updateUserInfo";
+export { updateUser } from "./updateUser";

@@ -10,7 +10,7 @@ type RequestData = Partial<Omit<UserInfo, "userId" | "email">> &
  * UserId is only accepted for finding the correct user and is not updatable
  * Email is not updatable
  */
-export const updateUserInfo = onCall<RequestData>(async (request) => {
+export const updateUser = onCall<RequestData>(async (request) => {
   const { userId, ...restOfFields } = request.data;
 
   await getFirestore()

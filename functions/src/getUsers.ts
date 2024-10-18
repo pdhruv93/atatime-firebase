@@ -27,7 +27,7 @@ const MAX_RESULTS_COUNT = 15;
 // const TIME_RANGE = new Date(Date.now() - 60 * 60 * 1000); // 1 Hour back
 
 /**
- * Returns all the activities with provided filter inputs
+ * Returns all the Users with provided filter inputs
  * @param activityName the activities that needs to be searched
  * @param location the base location around which the search needs to be made
  * @param radius the radius around base location that needs to be searched for.
