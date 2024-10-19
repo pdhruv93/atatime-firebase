@@ -6,16 +6,19 @@ On a Wednesday night traveling by cab, I felt how many people would be doing the
 
 @@time is a simple application that lets users mark their current activity and then check the list of other users doing the same activity at that time around the world.
 
-> Check the final working version [here](https://atatime-pwa.web.app/)
-
-## Tech Stack used
-
--   **Frontend:** React Native+Expo and TypeScipt, [Chakra UI](https://v2.chakra-ui.com/)
--   **Backend:** Google Firestore and Firebase Services(Serverless functions, Triggers)
--   **Other:** Formik+Yup
-
 ## Sample Screenshots
 
 ## Dev related Info
 
-> Created as a React native app using Expo
+**Error during firebase init**
+Check that the storage is enabled on Fireabse and billing is enabled for the app from the GCP
+https://console.cloud.google.com/billing
+
+**How to test cloud functions locally**
+Complete article here: https://firebase.google.com/docs/functions/local-shell
+
+Export the admin key from GCP and run
+`export GOOGLE_APPLICATION_CREDENTIALS="path/to/key.json"
+firebase functions:shell`
+
+You can run the shell command from root firebase directory or functions directory
