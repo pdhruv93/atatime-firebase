@@ -131,3 +131,6 @@ dist
 
 # OS Related
 .DS_Store
+
+# Keys for local debug
+atatime-admin-key.json
