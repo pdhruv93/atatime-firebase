@@ -25,10 +25,15 @@ firebase functions:shell`
 
 You can run the shell command from root firebase directory or functions directory
 
-### App is not initialized. Use initializeApp()
+To call the function just type function name with data param
+functionName({data: {// expected params}})
+
+### FirebaseAppError: The default Firebase app does not exist. Make sure you call initializeApp() before using any of the Firebase services
 
 Inside the cloud function index.ts, do
 `import { initializeApp } from "firebase-admin/app";
 initializeApp();
+
+You don't need to deploy this to Firebase as Firebase takes care of initialization. This is only for local shell
 `
 Not sure why it is needed?
