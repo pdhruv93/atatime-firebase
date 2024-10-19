@@ -1,8 +1,6 @@
 import { GeoPoint, Timestamp, getFirestore } from "firebase-admin/firestore";
-import { onCall } from "firebase-functions/v2/https";
-import { type UserInfo } from "./createUser";
-
-type Error = { error: string };
+import { HttpsError, onCall } from "firebase-functions/v2/https";
+import { type UserInfo } from "./types";
 
 type RequestData = {
   activityName?: string;
@@ -14,13 +12,11 @@ type RequestData = {
   sort?: "LOCATION" | "TIME";
 };
 
-type ResponseData =
-  | Error
-  | {
-      activityName: string | undefined;
-      totalResults: number;
-      users: UserInfo[];
-    };
+type ResponseData = {
+  activityName: string | undefined;
+  totalResults: number;
+  users: UserInfo[];
+};
 
 const MAX_RADIUS_ALLOWED = 12;
 const MAX_RESULTS_COUNT = 15;
@@ -47,21 +43,24 @@ export const getUsers = onCall<RequestData, Promise<ResponseData>>(
     } = request.data;
 
     if (!location) {
-      return {
-        error: "A base location is needed to find the nearby activities",
-      };
+      throw new HttpsError(
+        "invalid-argument",
+        "A base location is needed to find the nearby activities"
+      );
     }
 
     if (radius > MAX_RADIUS_ALLOWED) {
-      return {
-        error: `Too big radius. Max allowed: ${MAX_RADIUS_ALLOWED}`,
-      };
+      throw new HttpsError(
+        "invalid-argument",
+        `Too big radius. Max allowed: ${MAX_RADIUS_ALLOWED}`
+      );
     }
 
     if (count > MAX_RESULTS_COUNT) {
-      return {
-        error: `Cannot return so many results. Max allowed: ${MAX_RESULTS_COUNT}`,
-      };
+      throw new HttpsError(
+        "invalid-argument",
+        `Cannot return so many results. Max allowed: ${MAX_RESULTS_COUNT}`
+      );
     }
 
     await getFirestore()

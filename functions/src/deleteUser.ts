@@ -1,15 +1,22 @@
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
-import { onCall } from "firebase-functions/v2/https";
-import { type UserInfo } from "./createUser";
+import { HttpsError, onCall } from "firebase-functions/v2/https";
+import { type UserInfo } from "./types";
 
 type RequestData = {
-  userId: string;
+  userId: UserInfo["userId"];
   deleteOtherStoredData?: boolean;
 };
 
 export const deleteUser = onCall<RequestData>(async (request) => {
   const { userId, deleteOtherStoredData = true } = request.data;
+
+  if (!userId) {
+    throw new HttpsError(
+      "invalid-argument",
+      "Missing userId. Cannot delete without userId"
+    );
+  }
 
   const userSnapshot = await getFirestore()
     .collection("users")

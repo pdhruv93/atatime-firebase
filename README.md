@@ -17,8 +17,16 @@ https://console.cloud.google.com/billing
 **How to test cloud functions locally**
 Complete article here: https://firebase.google.com/docs/functions/local-shell
 
-Export the admin key from GCP and run
+You can also create the key from Firebase: Project Settings->Service Account->Generate Private key
+
 `export GOOGLE_APPLICATION_CREDENTIALS="path/to/key.json"
 firebase functions:shell`
 
 You can run the shell command from root firebase directory or functions directory
+
+**App is not initialized. Use initializeApp()**
+Inside the cloud function index.ts, do
+`import { initializeApp } from "firebase-admin/app";
+initializeApp();
+`
+Not sure why it is needed?

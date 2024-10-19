@@ -1,13 +1,11 @@
 import { getFirestore, FieldPath } from "firebase-admin/firestore";
 import { onCall } from "firebase-functions/v2/https";
 
-type Error = { error: string };
-
 type RequestData = {
   searchTerm?: string;
 };
 
-type ResponseData = Error | string[];
+type ResponseData = string[];
 
 /**
  * Returns all the activities with provided filter inputs
@@ -17,17 +15,16 @@ type ResponseData = Error | string[];
 export const getActivities = onCall<RequestData, Promise<ResponseData>>(
   async (request) => {
     const { searchTerm } = request.data;
-    const activities: string[] = [];
+    const activities: string[] = ["exercising", "playing", "@gym"];
 
     const snapshot = await getFirestore()
       .collection("activities")
       .where(FieldPath.documentId(), ">=", searchTerm)
-      .where(FieldPath.documentId(), "<", searchTerm + "\uf8ff")
       .get();
 
-    console.log(":::::::::::::::", snapshot.docs);
-
-    snapshot.docs.forEach((doc) => activities.push(doc.data()["data"]));
+    snapshot.docs.forEach(() => {
+      /* hello */
+    });
 
     return activities;
   }

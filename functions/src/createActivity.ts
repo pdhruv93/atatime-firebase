@@ -3,7 +3,7 @@ import {
   getFirestore,
   Timestamp,
 } from "firebase-admin/firestore";
-import { onCall } from "firebase-functions/v2/https";
+import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { getFormattedActivityName } from "./utils";
 
 type RequestData = {
@@ -17,10 +17,18 @@ export const createActivity = onCall<RequestData>(async (request) => {
   const { activityName, location } = request.data;
   const formattedActivityName = getFormattedActivityName(activityName);
 
+  if (!activityName) {
+    throw new HttpsError(
+      "invalid-argument",
+      "Missing activity name. Cannot create activity without activity name"
+    );
+  }
+
   if (activityName.length > MAX_ACTIVITY_NAME_LEN) {
-    return {
-      error: `Too long activity name. Max allowed: ${MAX_ACTIVITY_NAME_LEN}`,
-    };
+    throw new HttpsError(
+      "invalid-argument",
+      `Too long activity name. Max allowed: ${MAX_ACTIVITY_NAME_LEN}`
+    );
   }
 
   if (!location) {
@@ -29,12 +37,10 @@ export const createActivity = onCall<RequestData>(async (request) => {
     };
   }
 
-  const createdDocument = await getFirestore()
+  await getFirestore()
     .collection("activities")
     .doc(formattedActivityName)
     .set({ userId: request.auth?.uid, time: Timestamp.now(), location });
 
-  return {
-    createdDocument,
-  };
+  return;
 });

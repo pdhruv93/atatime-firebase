@@ -1,16 +1,6 @@
-import { type GeoPoint, getFirestore } from "firebase-admin/firestore";
+import { getFirestore } from "firebase-admin/firestore";
 import { onCall } from "firebase-functions/v2/https";
-
-export type UserInfo = {
-  userId: string;
-  userName: string;
-  email: string;
-  profileURL?: string;
-  location?: GeoPoint;
-  notificationDeviceId?: string;
-  preferences?: Map<string, string>;
-  socialMediaAccounts?: Map<string, string>;
-};
+import { type UserInfo } from "./types";
 
 type RequestData = Pick<UserInfo, "userName" | "email">;
 
